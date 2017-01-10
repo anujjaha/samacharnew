@@ -26,10 +26,19 @@ $this->load->helper('form');
 	</div><!-- /.box -->
 </div>
 
-<div class="col-md-12">
-	<div class="form-group">
+<div class="clearfix"></div>
+
+<div class="box box-success">
+	<div class="box-body text-center">
+		<div class="form-group">
 			<input type="hidden" class="form-control" name="company_id" value="<?php echo $this->session->userdata['company_id'];?>">
-			<input type="submit" name="save" value="Save">
+			<input type="submit" name="save" value="Save" class="btn btn-primary"> 
+			<input type="reset" name="rest" value="Reset" class="btn btn-primary">
+			<a class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER'];?>">
+				Cancel
+			</a>
 		</div>
+	</div>
 </div>
+
 </form>

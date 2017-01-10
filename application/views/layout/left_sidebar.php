@@ -39,18 +39,13 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="active">
-                            <a href="<?php echo base_url();?>">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="active">
                             <a href="<?php echo base_url();?>user/switch_company">
                                 <i class="fa fa-dashboard"></i> <span>Companies</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>">
-                                <i class="fa fa-envelope"></i> <span>Users</span>
+                                <i class="fa fa-envelope"></i> <span>Members</span>
                             </a>
                         </li>
                         <li>

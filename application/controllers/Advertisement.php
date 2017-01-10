@@ -37,7 +37,8 @@ class Advertisement extends CI_Controller {
 		$this->template->load('advertiser', 'index', $data);
 	}     
 	
-	public function add() {
+	public function add() 
+	{
 		$data = array();
 		$data['heading'] = $data['title']="Add Advertisement Details - ".SAMACHAR;
 		if($this->input->post()) {

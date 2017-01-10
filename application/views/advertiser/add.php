@@ -27,13 +27,14 @@ function calculate_add_cost() {
 	
 }
 var addCount = 1;
-function add_row() {
-	$("#multiple_row").append('<div id="row_'+addCount+'" class="form-group"><label></label><div class="col-md-9"><input type="text" class="form-control select-date" style="width:400px;"  name="active_months[]"> </div><div class="col-md-3"><span onclick="delete_row('+addCount+');">Delete</span></div></div>');
+function add_row() 
+{
+	$("#multiple_row").append('<div class="clearfix"></div><br><div id="row_'+addCount+'" class="form-group"><label></label><div class="col-md-9"><input type="text" class="form-control select-date" style="width:400px;"  name="active_months[]"> </div><div class="col-md-3"><span onclick="delete_row('+addCount+');">Delete</span></div></div>');
  $( ".select-date" ).datepicker();
 }
 
 function abc() {
-	alert('asf');
+	//alert('asf');
 }
 
 function delete_row(id) {
@@ -154,16 +155,32 @@ function delete_row(id) {
 				</span>
 			</div>
 		</div>
-		<div  id="multiple_row"></div>
+
+		<div class="form-group">
+			<div  id="multiple_row"></div>
+		</div>
 		
+<div class="clearfix"></div>
 	</div><!-- /.box-body -->
 	</div><!-- /.box -->
 </div>
 
-<div class="col-md-12">
-	<div class="form-group">
+
+
+<div class="clearfix"></div>
+
+<div class="box box-success">
+	<div class="box-body text-center">
+		<div class="form-group">
 			<input type="hidden" class="form-control" name="company_id" value="<?php echo $this->session->userdata['company_id'];?>">
-			<input type="submit" name="save" value="Save">
+			<input type="submit" name="save" value="Save" class="btn btn-primary"> 
+			<input type="reset" name="rest" value="Reset" class="btn btn-primary">
+			<a class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER'];?>">
+				Cancel
+			</a>
 		</div>
+	</div>
 </div>
+
+
 </form>

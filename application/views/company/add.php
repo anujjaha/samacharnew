@@ -57,9 +57,19 @@ $this->load->helper('form');
 	</div><!-- /.box-body -->
 	</div><!-- /.box -->
 </div>
-<div class="col-md-6">
-	<div class="form-group">
-			<input type="submit" name="save" value="Save">
+
+<div class="clearfix"></div>
+
+<div class="box box-success">
+	<div class="box-body text-center">
+		<div class="form-group">
+			<input type="submit" name="save" value="Save" class="btn btn-primary"> 
+			<input type="reset" name="rest" value="Reset" class="btn btn-primary">
+			<a class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER'];?>">
+				Cancel
+			</a>
 		</div>
+	</div>
 </div>
+
 </form>
