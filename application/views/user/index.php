@@ -4,7 +4,7 @@
 <div class="row">
 <div class="col-md-12">
 	<a href="<?php echo base_url();?>company/add">
-		Add New Company
+		Add New Member
 	</a>
 	</div>
 </div>

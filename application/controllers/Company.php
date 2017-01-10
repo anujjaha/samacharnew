@@ -1,4 +1,4 @@
-<?php
+u<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Company extends CI_Controller {
@@ -33,7 +33,7 @@ class Company extends CI_Controller {
 	}
 	public function add() {
 		$data = array();
-		$data['heading'] = $data['title']="Create Company - ".SAMACHAR;
+		$data['heading'] = $data['title']="Create New Member - ".SAMACHAR;
 		if($this->input->post()) {
 			$comp_data = array();
 			$comp_data['name'] = $this->input->post('name');
