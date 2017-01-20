@@ -50,11 +50,35 @@ class Subscriber extends CI_Controller {
 			$subscriber_data['notes'] = $this->input->post('notes');
 			$status = $this->subscriber_model->insert_details($subscriber_data);
 			if($status) {
-				redirect("subscriber/index/",'refresh');
+				redirect("subscriber/receipt/".$status,'refresh');
 			}
 		}
 		$this->template->load('subscriber', 'add', $data);
 	}
+
+	public function receipt($subscriberId)
+	{
+		if($subscriberId)
+		{
+			$subscriberInfo = $this->subscriber_model->getSubscriber($subscriberId);	
+			$memberInfo     = $this->member_model->get_member('id', $subscriberInfo->member_id);
+			$companyInfo    = $this->company_model->get_company('id', $subscriberInfo->company_id);
+
+			$data = array(
+				'subscribe' 	=> $subscriberInfo,
+				'member'		=> $memberInfo[0],
+				'company'		=> $companyInfo[0]
+			);
+
+			$this->template->load('subscriber', 'receipt', $data);		
+		}
+		else
+		{
+			redirect("subscriber/index", "refresh");	
+		}
+		
+	}
+
 	public function edit($id=null) {
 		$data = array();
 		$data['heading'] = $data['title']="Edit Subscribe Member - ".$this->session->userdata['company_name'];

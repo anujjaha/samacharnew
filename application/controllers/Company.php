@@ -1,4 +1,4 @@
-u<?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Company extends CI_Controller {

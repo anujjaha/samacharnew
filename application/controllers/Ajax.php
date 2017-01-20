@@ -82,7 +82,7 @@ class Ajax extends CI_Controller {
 
 			$html = '';
 
-			$html ='<table align="center" border="2" width="800px; border: 2px solid black;">
+			$html ='<table align="center" border="2" style="800px; border: 2px solid black;">
 				<tr>
 					<td style="width: 500px; font-size: 16px; border: 2px solid black;">
 						<h3>'. $companyInfo['name'] .'</h3>
@@ -218,6 +218,156 @@ class Ajax extends CI_Controller {
 
 			$link = create_pdf($html, 'A4');
 
+			echo json_encode(array(
+				'status' 	=> true,
+				'url'		=> $link
+			));
+			
+			die;
+		}
+	}
+
+	public function download_receipt($subscriberId)
+	{
+		if($subscriberId)
+		{
+			$this->load->model('subscriber_model');
+			$this->load->model('member_model');
+			$this->load->model('company_model');
+
+
+			$subscribe 	= $this->subscriber_model->getSubscriber($subscriberId);	
+			$member     = $this->member_model->get_member('id', $subscribe->member_id);
+			$company    = $this->company_model->get_company('id', $subscribe->company_id);
+
+			$member 	= $member[0];
+			$company 	= $company[0];
+			$html = '';
+
+			$html .= '<table border="2" style="800px; border: 2px solid black;">
+			<tr>
+				<td style="width: 500px; font-size: 16px; border: 2px solid black;">
+					<table style="500px; border: 2px solid black;">  
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong> Received with Thanks From 
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong>Name:</strong> '.$member['companyname'] .' ('.$member['name'] . 
+						') </td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong>Address:</strong>'. $member['add1'].' '.$member['add2'].
+							'<br>'.
+							$member['city']. ', ' .$member['state']. ' '.$member['pincode'] .'
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Total Paid: '. $subscribe->subscribe_amount .'
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Payment : Cash
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Subscription Details : <br>
+							<table  style="width: 500px; border: 2px solid black;" border="2">
+								<tr>
+									<td style="font-size: 16px; border: 2px solid black;">From</td>
+									<td style="font-size: 16px; border: 2px solid black;">TO</td>
+									<td style="font-size: 16px; border: 2px solid black;">Year</td>
+									<td style="font-size: 16px; border: 2px solid black;">Issue</td>
+								</tr>
+								<tr>
+									<td style="font-size: 16px; border: 2px solid black;">
+									'.date('m-d-Y', strtotime($subscribe->subscribe_from_date)) .'</td>
+									<td  style="font-size: 16px; border: 2px solid black;">
+									'. date('m-d-Y', strtotime($subscribe->subscribe_to_date)) .'</td>
+									<td style="font-size: 16px; border: 2px solid black;">2017</td>
+									<td style="font-size: 16px; border: 2px solid black;">12</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Subject To Ahmedabad Jurdiction - Subject to Realization of Cheque
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<hr>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							'. $company['address']. '
+							<br>
+							'. $company['city']. " ".$company['state']. " ". $company['pincode'].
+							'<br>
+							Mobile :  '. $company['mobile']. '
+							<br>
+							Email Id : ' .$company['emailid']. '
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>	
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">Signature: ______________________________</td>
+					</tr>
+					</table>
+				</td>
+
+				<td width="30%">';
+					
+						if(isset($company['logo']) && file_exists('assets/companylogo/'. $company['logo']))
+						{
+							$html .= '<img src="'.site_url('assets/companylogo/'. $company['logo']).'">';
+						}
+						else
+						{
+							$html .= '<h1>'.  $company['name'] .'</h1>';
+						}
+					
+					$html .= '<br>
+							<center><h4>SUBSCRIPTION</h4></center>
+							<hr>
+							<center><h4>
+							RECEIPT NUMBER
+							<br>
+							S : '. $subscribe->id. '
+							</h4></center>
+							<hr>
+							<center><h4>
+							Date
+							<br>
+						 		'. date('m-d-Y', strtotime($subscribe->created)). '
+							</h4></center>
+							<hr>
+							<center><h4>
+								Amount
+							<br>
+						 	'. $subscribe->subscribe_amount. '
+							</h4></center>
+							<hr>
+							<center><h4>
+								'. $company['owner']. '
+							<br>
+								'. $company['name']. '
+							</h4></center>
+				</td>
+			</tr>
+		</table>';
+			
+			$link = create_pdf($html, 'A5');
 			echo json_encode(array(
 				'status' 	=> true,
 				'url'		=> $link

@@ -22,6 +22,7 @@
 		<th>Subscription To</th>
 		<th>Subscription Status</th>
 		<th>Edit</th>
+		<th>Receipt</th>
 		<th>Delete</th>
 		</tr>
 		</thead>
@@ -55,6 +56,11 @@
 		<td>
 			<a href="<?php echo base_url();?>subscriber/edit/<?php echo $subscriber['subscribe_id'];?>">
 				Edit
+			</a>
+		</td>
+		<td>
+			<a href="<?php echo base_url();?>subscriber/receipt/<?php echo $subscriber['subscribe_id'];?>">
+				Receipt
 			</a>
 		</td>
 		<td>
@@ -100,7 +106,7 @@ function delete_subscription(id) {
 	if(status) {
 		jQuery("#subscribe_row_"+id).hide();
 		$.ajax({
-		 type: "POST",
+		 method: "POST",
 		 url: "<?php echo site_url();?>/ajax/delete_subscriber/"+id, 
 		 success: 
 			function(data){

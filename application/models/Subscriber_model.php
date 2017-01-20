@@ -12,6 +12,29 @@ class Subscriber_model extends CI_Model {
 		$this->db->insert($this->table,$data);
 		return $this->db->insert_id();
 	}
+
+	/**
+	 * Get Subscriber by Id
+	 * 
+	 * @param int $subscriberId
+	 * @return array
+	 */
+	public function getSubscriber($subscriberId = null)
+	{
+		if($subscriberId)
+		{
+			$this->db->select('*')
+				->from($this->table)
+				->where('id', $subscriberId);
+
+			$query = $this->db->get();
+
+			return $query->row();	
+		}
+		
+		return false;
+	}
+
     public function get_details($param=null,$value=null,$company=true) {
 		$this->db->select("*")
 				->from($this->table);
