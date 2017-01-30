@@ -6,11 +6,11 @@ $this->load->helper('form');
 	$(document).ready(function () {
 	
 		$('#subscribe_to_date').datepicker({ 
-			dateFormat: 'yy' 
+			dateFormat: 'd-m-Y' 
 			});
 
 		$('#subscribe_from_date').datepicker({ 
-			dateFormat: 'yy'
+			dateFormat: 'd-m-Y' 
 			 });
 	
 		});
@@ -54,12 +54,12 @@ $this->load->helper('form');
 		
 		<div class="form-group">
 			<label>Subscription Fees</label>
-			<input type="text" class="form-control" name="subscribe_amount" placeholder="Subscription Fees">
+			<input type="text" class="form-control" name="subscribe_amount" id="subscribe_amount"   placeholder="Subscription Fees">
 		</div>
 		
 		<div class="form-group">
 			<label>Subscription From Date</label>
-			<input type="text" name="subscribe_from_date" id="subscribe_from_date" class="form-control" >
+			<input type="text" name="subscribe_from_date" id="subscribe_from_date" class="form-control" value="<?php echo date('d-m-Y');?>">
 		</div>
 		
 		<div class="form-group">
@@ -111,3 +111,33 @@ $this->load->helper('form');
 </div>
 
 </form>
+<script type="text/javascript">
+function set_subscription_price()
+{
+	var sbtype = jQuery("#subscription_details_id").val();
+
+	if(sbtype == 0)
+	{
+		return;
+	}
+
+	jQuery.ajax(
+	{
+		url: "<?php echo site_url();?>/ajax/getSubscriptionChargeById/"+sbtype,
+		type: 'POST',
+		dataType: 'JSON',
+		data: {
+			'id': sbtype
+		},
+		success: function(data)
+		{
+			jQuery("#subscribe_amount").val(data.details.subscription_amount);
+		},
+		error: function(data)
+		{
+
+		}
+	});
+}
+
+</script>

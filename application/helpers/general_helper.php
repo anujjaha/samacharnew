@@ -286,20 +286,21 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 	
 	function get_subscription_details_dropdown($details_id = null) {
 		$ci = & get_instance();
-		$ci->db->select('id,subscription_type,subscription_term,subscription_amount')
+		$ci->db->select('id,subscription_type,subscription_term,subscription_issues,subscription_amount')
 			->from('subscription_details')
 			->where('company_id',$ci->session->userdata['company_id'])
 			->where('active','1')
 			->order_by('subscription_type');
 		$query = $ci->db->get();
-		$data = '<select class="form-control" name="subscription_details_id">';
+		$data = '<select class="form-control" onchange="set_subscription_price()" name="subscription_details_id" id="subscription_details_id">';
+		$data .= '<option value="0">Select Subscription Type</option>';
 		foreach($query->result_array() as $subscription) {
 			$selected = "";
 			if($details_id && $details_id  == $subscription['id']) {
 				$selected = 'selected="selected"';
 			}
 			
-			$data .= '<option '.$selected.' value='.$subscription['id'].'>'.$subscription['subscription_type']." [".$subscription['subscription_term']."]".'</option>';
+			$data .= '<option '.$selected.' value='.$subscription['id'].'>'.$subscription['subscription_type']." [".$subscription['subscription_term']."][Issues-".$subscription['subscription_issues'].']</option>';
 		}
 		$data .= "</select>";
 	return $data;
@@ -317,3 +318,104 @@ function pr($data, $die = true)
 		die("ForceStop");
 	}
 }
+
+
+
+
+ // recursive fn, converts three digits per pass
+function convertTri($num, $tri) 
+{
+$ones = array(
+ "",
+ " one",
+ " two",
+ " three",
+ " four",
+ " five",
+ " six",
+ " seven",
+ " eight",
+ " nine",
+ " ten",
+ " eleven",
+ " twelve",
+ " thirteen",
+ " fourteen",
+ " fifteen",
+ " sixteen",
+ " seventeen",
+ " eighteen",
+ " nineteen"
+);
+ 
+$tens = array(
+ "",
+ "",
+ " twenty",
+ " thirty",
+ " forty",
+ " fifty",
+ " sixty",
+ " seventy",
+ " eighty",
+ " ninety"
+);
+ 
+$triplets = array(
+ "",
+ " thousand",
+ " million",
+ " billion",
+ " trillion",
+ " quadrillion",
+ " quintillion",
+ " sextillion",
+ " septillion",
+ " octillion",
+ " nonillion"
+);
+ 
+  
+  // chunk the number, ...rxyy
+  $r = (int) ($num / 1000);
+  $x = ($num / 100) % 10;
+  $y = $num % 100;
+ 
+  // init the output string
+  $str = "";
+ 
+  // do hundreds
+  if ($x > 0)
+   $str = $ones[$x] . " hundred";
+ 
+  // do ones and tens
+  if ($y < 20)
+   $str .= $ones[$y];
+  else
+   $str .= $tens[(int) ($y / 10)] . $ones[$y % 10];
+ 
+  // add triplet modifier only if there
+  // is some output to be modified...
+  if ($str != "")
+   $str .= $triplets[$tri];
+ 
+  // continue recursing?
+  if ($r > 0)
+   return convertTri($r, $tri+1).$str;
+  else
+   return $str;
+ }
+ 
+function convertNumberToWord($num) 
+{
+	$num = (int) $num;
+ 	
+ 	if ($num < 0)
+  		return "negative".convertTri(-$num, 0);
+ 
+ 	if ($num == 0)
+  		return "zero";
+ 
+ 	return ucwords(convertTri($num, 0));
+}
+ 

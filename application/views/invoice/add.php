@@ -23,7 +23,7 @@ $this->load->helper('form');
 				<tbody id="invoiceItemContainer">
 					<tr>
 						<td>Item/Details</td>
-						<td>Qty</td>
+						<td>Month</td>
 						<td>Rate</td>
 						<td>Sub Total</td>
 						<td>Action</td>

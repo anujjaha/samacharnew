@@ -18,6 +18,11 @@ $this->load->helper('form');
 			<label>Subscription Term</label>
 			<input type="text" class="form-control" name="subscription_term"  value="<?php echo $subscription['subscription_term'];?>"  placeholder="Subscription Term" required="required">
 		</div>
+
+		<div class="form-group">
+			<label>Subscription Issues</label>
+			<input type="text" class="form-control" name="subscription_issues"  value="<?php echo $subscription['subscription_issues'];?>"  placeholder="Subscription Issues" required="required">
+		</div>
 		<div class="form-group">
 			<label>Subscription Amount</label>
 			<input type="text" class="form-control" name="subscription_amount"  value="<?php echo $subscription['subscription_amount'];?>"  placeholder="Subscription Amount" required="required">

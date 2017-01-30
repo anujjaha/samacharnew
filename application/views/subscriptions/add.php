@@ -17,6 +17,12 @@ $this->load->helper('form');
 			<label>Subscription Term</label>
 			<input type="text" class="form-control" name="subscription_term" placeholder="Subscription Term" required="required">
 		</div>
+
+		<div class="form-group">
+			<label>Total Issues :</label>
+			<input type="text" class="form-control" name="subscription_issues" placeholder="Subscription Issues" value="12" required="required">
+		</div>
+
 		<div class="form-group">
 			<label>Subscription Amount</label>
 			<input type="text" class="form-control" name="subscription_amount" placeholder="Subscription Amount" required="required">

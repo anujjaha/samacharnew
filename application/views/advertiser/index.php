@@ -20,13 +20,14 @@
 		<th>From</th>
 		<th>To</th>
 		<th>Status</th>
+		<th>Receipt</th>
 		</tr>
 		</thead>
 	<tbody>
 		<?php
 		$sr =1;	
 		foreach($advertisers as $advertise) { 
-			?>
+		?>
 		<tr>
 		<td><?php echo $sr;?></td>
 		<td><?php echo $advertise['companyname'] ?  $advertise['companyname'] : $advertise['name'];?></td>
@@ -47,6 +48,11 @@
 					}
 				echo $status;
 				?>
+		 </td>
+		 <td>
+		 	<a href="<?php echo base_url();?>advertisement/receipt/<?php echo $advertise['advertisement_id'];?>">
+		 		Receipt
+		 	</a>
 		 </td>
 		</tr>
 		<?php $sr++; } ?>

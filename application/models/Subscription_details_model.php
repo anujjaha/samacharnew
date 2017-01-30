@@ -33,4 +33,20 @@ class Subscription_details_model extends CI_Model {
 		}
 		return false;
 	}
+
+	public function getPriceById($id)
+	{
+		$this->db->select('subscription_amount')
+			->from($this->table)
+			->where('id', $id);
+
+		$query = $this->db->get();
+
+		if($query->row())
+		{
+			return $query->row();
+		}
+
+		return false;
+	}
 }

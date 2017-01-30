@@ -18,7 +18,7 @@ class Advertisement_model extends CI_Model {
 		return $this->db->insert_id();
 	}
     public function get_advertisement_details($param=null,$value=null,$company=true) {
-		$this->db->select("*")
+		$this->db->select("*,advertisement.id as advertisement_id")
 				->join("members","advertisement.member_id = members.id","left")
 				->from($this->table);
 		if($param && $value) {
@@ -31,6 +31,21 @@ class Advertisement_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function getAdvertisementDetails($id)
+	{
+		$this->db->select('*')
+			->from($this->table)
+			->where('id', $id);
+
+		$query = $this->db->get();
+
+		if($query->row())
+		{
+			return $query->row();
+		}
+
+		return false;
+	}
 	public function edit_advertisement_details($id=null,$data=array()) {
 		if($id) {
 			$this->db->where('id',$id);

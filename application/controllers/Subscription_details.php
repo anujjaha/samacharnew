@@ -40,6 +40,8 @@ class Subscription_details extends CI_Controller {
 			$subscription_data['subscription_type'] = $this->input->post('subscription_type');
 			$subscription_data['subscription_term'] = $this->input->post('subscription_term');
 			$subscription_data['subscription_amount'] = $this->input->post('subscription_amount');
+			$subscription_data['subscription_issues'] = $this->input->post('subscription_issues');
+			
 			$status = $this->subscription_details_model->insert_subcription_details($subscription_data);
 			if($status) {
 				redirect("subscription_details/index/",'refresh');
@@ -60,6 +62,8 @@ class Subscription_details extends CI_Controller {
 			$subscription_data['subscription_type'] = $this->input->post('subscription_type');
 			$subscription_data['subscription_term'] = $this->input->post('subscription_term');
 			$subscription_data['subscription_amount'] = $this->input->post('subscription_amount');
+			$subscription_data['subscription_issues'] = $this->input->post('subscription_issues');
+			
 			$status = $this->subscription_details_model->edit_subcription_details($subscription_id,$subscription_data);
 			if($status) {
 				redirect("subscription_details/index/",'refresh');

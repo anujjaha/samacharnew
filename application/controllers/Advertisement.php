@@ -37,6 +37,32 @@ class Advertisement extends CI_Controller {
 		$this->template->load('advertiser', 'index', $data);
 	}     
 	
+	public function receipt($advertisementId)
+	{
+		if($advertisementId)
+		{
+			$advertiseInfo = $this->advertisement_model->getAdvertisementDetails($advertisementId);	
+			if($advertiseInfo)
+			{
+				$memberInfo     = $this->member_model->get_member('id', $advertiseInfo->member_id);
+				$companyInfo    = $this->company_model->get_company('id', $advertiseInfo->company_id);	
+			}
+			
+
+			$data = array(
+				'advertise' 	=> $advertiseInfo,
+				'member'		=> $memberInfo[0],
+				'company'		=> $companyInfo[0]
+			);
+
+			$this->template->load('advertiser', 'receipt', $data);		
+		}
+		else
+		{
+			redirect("advertiser/index", "refresh");	
+		}
+	}
+
 	public function add() 
 	{
 		$data = array();

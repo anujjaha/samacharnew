@@ -40,7 +40,7 @@
                     <ul class="sidebar-menu">
                         <li class="active">
                             <a href="<?php echo base_url();?>user/switch_company">
-                                <i class="fa fa-dashboard"></i> <span>Companies</span>
+                                <i class="fa fa-dashboard"></i> <span>Company Master</span>
                             </a>
                         </li>
                         <li>

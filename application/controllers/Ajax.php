@@ -267,7 +267,7 @@ class Ajax extends CI_Controller {
 					</tr>
 					<tr>
 						<td style="font-size: 16px; border: 2px solid black;">
-							Total Paid: '. $subscribe->subscribe_amount .'
+							Total Paid: '. convertNumberToWord($subscribe->subscribe_amount) .'
 						</td>
 					</tr>
 					<tr>
@@ -318,10 +318,9 @@ class Ajax extends CI_Controller {
 						</td>
 					</tr>
 					<tr>
-						<td>&nbsp;</td>
-					</tr>	
-					<tr>
-						<td style="font-size: 16px; border: 2px solid black;">Signature: ______________________________</td>
+						<td align="right" style="font-size: 16px; border: 2px solid black;">
+						<div id="rectangle" style="width:200px; height:100px; background:blue; border: 2px solid #000"></div>
+						</td>
 					</tr>
 					</table>
 				</td>
@@ -367,7 +366,12 @@ class Ajax extends CI_Controller {
 			</tr>
 		</table>';
 			
-			$link = create_pdf($html, 'A5');
+			$printHtml = '<div style="height: 520px;">
+						'.$html.'
+					</div>';	
+			$printReceipt = $printHtml.'<div style="height: 15px;"><hr></div>'.$printHtml;
+
+			$link = create_pdf($printReceipt, 'A4');
 			echo json_encode(array(
 				'status' 	=> true,
 				'url'		=> $link
@@ -375,5 +379,183 @@ class Ajax extends CI_Controller {
 			
 			die;
 		}
+	}
+
+	public function downloadAddreceipt($addvertiseId)
+	{
+		if($addvertiseId)
+		{
+			$this->load->model('advertisement_model');
+			$this->load->model('member_model');
+			$this->load->model('company_model');
+
+
+			$advertise 	= $this->advertisement_model->getAdvertisementDetails($addvertiseId);	
+			$member     = $this->member_model->get_member('id', $advertise->member_id);
+			$company    = $this->company_model->get_company('id', $advertise->company_id);
+
+			$member 	= $member[0];
+			$company 	= $company[0];
+			$html = '';
+
+			$html .= '<table border="2" style="800px; border: 2px solid black;">
+			<tr>
+				<td style="width: 500px; font-size: 16px; border: 2px solid black;">
+					<table style="500px; border: 2px solid black;">  
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong> Received with Thanks From 
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong>Name:</strong> '.$member['companyname'] .' ('.$member['name'] . 
+						') </td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							<strong>Address:</strong>'. $member['add1'].' '.$member['add2'].
+							'<br>'.
+							$member['city']. ', ' .$member['state']. ' '.$member['pincode'] .'
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Total Paid: '. convertNumberToWord($advertise->cost) .'
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Payment : Cash
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Subscription Details : <br>
+							<table  style="width: 500px; border: 2px solid black;" border="2">
+								<tr>
+									<td style="font-size: 16px; border: 2px solid black;">From</td>
+									<td style="font-size: 16px; border: 2px solid black;">TO</td>
+									<td style="font-size: 16px; border: 2px solid black;">Year</td>
+									<td style="font-size: 16px; border: 2px solid black;">Issue</td>
+								</tr>
+								<tr>
+									<td style="font-size: 16px; border: 2px solid black;">
+									'.date('m-d-Y', strtotime($advertise->duration_from)) .'</td>
+									<td  style="font-size: 16px; border: 2px solid black;">
+									'. date('m-d-Y', strtotime($advertise->duration_to)) .'</td>
+									<td style="font-size: 16px; border: 2px solid black;">2017</td>
+									<td style="font-size: 16px; border: 2px solid black;">12</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							Subject To Ahmedabad Jurdiction - Subject to Realization of Cheque
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<hr>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size: 16px; border: 2px solid black;">
+							'. $company['address']. '
+							<br>
+							'. $company['city']. " ".$company['state']. " ". $company['pincode'].
+							'<br>
+							Mobile :  '. $company['mobile']. '
+							<br>
+							Email Id : ' .$company['emailid']. '
+						</td>
+					</tr>
+					<tr>
+						<td align="right" style="font-size: 16px; border: 2px solid black;">
+						<div id="rectangle" style="width:200px; height:100px; background:blue; border: 2px solid #000"></div>
+						</td>
+					</tr>
+					</table>
+				</td>
+
+				<td width="30%">';
+					
+						if(isset($company['logo']) && file_exists('assets/companylogo/'. $company['logo']))
+						{
+							$html .= '<img src="'.site_url('assets/companylogo/'. $company['logo']).'">';
+						}
+						else
+						{
+							$html .= '<h1>'.  $company['name'] .'</h1>';
+						}
+					
+					$html .= '<br>
+							<center><h4>Advertisement</h4></center>
+							<hr>
+							<center><h4>
+							RECEIPT NUMBER
+							<br>
+							A : '. $advertise->id. '
+							</h4></center>
+							<hr>
+							<center><h4>
+							Date
+							<br>
+						 		'. date('m-d-Y', strtotime($advertise->created)). '
+							</h4></center>
+							<hr>
+							<center><h4>
+								Amount
+							<br>
+						 	'. $advertise->cost. '
+							</h4></center>
+							<hr>
+							<center><h4>
+								'. $company['owner']. '
+							<br>
+								'. $company['name']. '
+							</h4></center>
+				</td>
+			</tr>
+		</table>';
+			
+			$printHtml = '<div style="height: 520px;">
+						'.$html.'
+					</div>';	
+			$printReceipt = $printHtml.'<div style="height: 15px;"><hr></div>'.$printHtml;
+
+			$link = create_pdf($printReceipt, 'A4');
+			echo json_encode(array(
+				'status' 	=> true,
+				'url'		=> $link
+			));
+			
+			die;
+		}
+	}
+
+	public function getSubscriptionChargeById()
+	{
+		$id = $this->input->post('id');
+		$this->load->model('subscription_details_model');
+		$details = $this->subscription_details_model->getPriceById($id);
+
+		if($details)
+		{
+			echo json_encode(array(
+				'status' 	=> true,
+				'details'	=> $details
+			));
+			
+			die;
+		}
+
+		echo json_encode(array(
+				'status' 	=> false,
+				'details'	=> ''
+			));
+			
+			die;
 	}
 }

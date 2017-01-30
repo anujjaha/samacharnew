@@ -23,7 +23,7 @@ $this->load->helper('form');
 		</div>
 		<div class="form-group">
 			<label>Advertisement Size</label>
-			<input type="text" class="form-control" name="advertisement_size" placeholder="Advertisement Size" required="required">
+			<input type="text" class="form-control" name="advertisement_size" placeholder="Advertisement Size">
 		</div>
 		
 	</div><!-- /.box-body -->

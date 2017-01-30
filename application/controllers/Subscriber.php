@@ -25,8 +25,9 @@ class Subscriber extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	 public function index() {
-		$data = array();
+	 public function index() 
+	 {
+	 	$data = array();
 		$data['heading'] = $data['title']="Subscriber List - ".$this->session->userdata['company_name'];
 		$data['subscribers'] = $this->subscriber_model->get_all_subscribers();
 		$this->template->load('subscriber', 'index', $data);
@@ -76,7 +77,6 @@ class Subscriber extends CI_Controller {
 		{
 			redirect("subscriber/index", "refresh");	
 		}
-		
 	}
 
 	public function edit($id=null) {

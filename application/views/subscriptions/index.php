@@ -16,6 +16,7 @@
 		<th>Sr</th>
 		<th>Subscription Name</th>
 		<th>Subscription Term</th>
+		<th>Subscription Term</th>
 		<th>Subscription Amount</th>
 		<th>Edit</th>
 		</tr>
@@ -29,6 +30,7 @@
 		<td><?php echo $sr;?></td>
 		<td><?php echo $subscription['subscription_type'];?></td>
 		<td><?php echo $subscription['subscription_term'];?></td>
+		<td><?php echo $subscription['subscription_issues'];?></td>
 		<td><?php echo $subscription['subscription_amount'];?></td>
 		<td>
 			<a href="<?php echo base_url();?>subscription_details/edit/<?php echo $subscription['id'];?>">Edit</a>
