@@ -63,10 +63,22 @@ class User extends CI_Controller {
                 $password = md5($this->input->post('password'));
                 $result = $this->user_model->login_user($username,$password);
                 if($result) {
-                    $set_data = array('login'=>true,'user_id'=>$result->id,'role'=>$result->role,
-                                       'username'=>$result->nickname,'mobile'=>$result->mobile,
-                                      );
+                    $set_data = array(
+                    	'login'			=> true,
+                    	'user_id' 		=> $result->id,
+                    	'role' 			=> $result->role,
+                        'username' 		=> $result->nickname,
+                        'mobile' 		=> $result->mobile
+                    );
+                $company_id = 1;
+                $data['companies'] = $this->company_model->get_company('id', $company_id);
+                $this->session->userdata['company_id'] = $data['companies'][0]['id'];
+                $this->session->userdata['company_name'] = $data['companies'][0]['name'];
+                $this->session->userdata['company_owner'] = $data['companies'][0]['owner'];
+                $this->session->userdata['company_mobile'] = $data['companies'][0]['mobile'];
+                $this->session->userdata['company_emailid'] = $data['companies'][0]['emailid'];
                 $this->session->set_userdata($set_data);
+
                 redirect("user/dashboard/",'refresh');
                 } else {
                     $this->session->set_flashdata('msg', 'Invalid Credentials');
