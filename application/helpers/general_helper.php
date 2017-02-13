@@ -264,7 +264,29 @@ function send_mail($to,$from,$subject="Cybera Email System",$content=null) {
 	  return true;
 	}
 }
-	function get_members_dropdown($member_id=null) {
+	function get_members_dropdown_invoice($member_id=null) 
+	{
+		$ci = & get_instance();
+		$ci->db->select('id,companyname,name')
+			->from('members')
+			->where('company_id',$ci->session->userdata['company_id'])
+			->where('active','1')
+			->order_by('companyname');
+		$query = $ci->db->get();
+		$data = '<select onchange="loadInvoice()"  class="form-control" id="member_id" name="member_id"><option value="0">Select Member</option>';
+		foreach($query->result_array() as $member) {
+			$selected = "";
+			if($member_id && $member_id == $member['id']) {
+				$selected = 'selected="selected"';
+			}
+			$data .= '<option '.$selected.' value='.$member['id'].'>'.$member['companyname']." [".$member['name']."]".'</option>';
+		}
+		$data .= "</select>";
+	return $data;
+	}
+
+	function get_members_dropdown($member_id=null) 
+	{
 		$ci = & get_instance();
 		$ci->db->select('id,companyname,name')
 			->from('members')

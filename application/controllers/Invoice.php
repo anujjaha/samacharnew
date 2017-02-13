@@ -16,6 +16,23 @@ class Invoice extends CI_Controller {
 		$this->template->load('invoice', 'index', $data);
 	}   
 
+	public function custominvoice() 
+	{
+		$data = array();
+		$data['heading'] = $data['title']="Add Advertisement Details - ".SAMACHAR;
+		if($this->input->post())
+		{	
+			$data = $this->input->post();
+
+			$invoiceId = $this->invoice_model->create($this->session->userdata['company_id'], $data);
+			
+			redirect("invoice", "refresh");
+		}
+
+		$data['members'] = $this->member_model->get_member('company_id',$this->session->userdata['company_id']);
+		$this->template->load('invoice', 'custominvoice', $data);
+	} 
+
 	public function add() 
 	{
 		$data = array();
@@ -25,6 +42,11 @@ class Invoice extends CI_Controller {
 			$data = $this->input->post();
 
 			$invoiceId = $this->invoice_model->create($this->session->userdata['company_id'], $data);
+
+			$this->load->model('advertisement_model');
+
+			$this->advertisement_model->setInvoicedAdvertisementById($this->input->post('advertisement_id'));
+			
 			
 			redirect("invoice", "refresh");
 		}

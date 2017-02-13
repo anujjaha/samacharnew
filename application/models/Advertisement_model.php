@@ -60,4 +60,29 @@ class Advertisement_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->row()->total;
 	}
+
+	public function getLastPendingInvoiceByMemberId($member_id)
+	{
+		$sql = "SELECT advertisement.*,
+				advertisement_details.advertisement_type, advertisement_details.advertisement_term,
+				advertisement_details.advertisement_size,advertisement_details.advertisement_amount
+				FROM advertisement 
+				LEFT JOIN advertisement_details ON advertisement_details.id = advertisement.advertisement_details_id
+				WHERE member_id = '".$member_id."' ANd is_invoice = 0 ORDER BY advertisement.id LIMIT 0, 1";
+		$query = $this->db->query($sql);
+		return $query->row();		
+	}
+
+	public function setInvoicedAdvertisementById($id = null)
+	{
+		if($id)
+		{
+			$sql = "UPDATE advertisement set is_invoice = 1 WHERE id = '" .$id. "'";
+
+			return $this->db->query($sql);
+		}
+
+		return false;
+
+	}
 }

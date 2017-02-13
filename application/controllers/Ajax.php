@@ -558,4 +558,36 @@ class Ajax extends CI_Controller {
 			
 			die;
 	}
+
+	public function getLastAdvertisementDetails()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('advertisement_model');
+			$memberId = $this->input->post('member_id');
+
+			$data = $this->advertisement_model->getLastPendingInvoiceByMemberId($memberId);
+
+			if($data)
+			{
+				$response = array(
+					'status'			=> true,
+					'advertisement_id' 	=> $data->id,
+					'item' 				=> $data->advertisement_type,
+					'duration' 			=> $data->duration,
+					'rate' 				=> $data->advertisement_amount,
+					'total'				=> $data->cost
+				);
+
+				echo json_encode($response);
+				die;
+			}
+
+			echo json_encode(array(
+				'status' 	=> false,
+				'details'	=> ''
+			));
+			die;
+		}
+	}
 }

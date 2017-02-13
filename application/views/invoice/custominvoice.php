@@ -10,7 +10,7 @@ $this->load->helper('form');
 	<div class="box-body">
 		<div class="form-group">
 			<label>Select Member</label>
-			<?php echo get_members_dropdown_invoice();?>
+			<?php echo get_members_dropdown();?>
 		</div>
 		
 		<div class="form-group">
@@ -30,10 +30,10 @@ $this->load->helper('form');
 					</tr>
 
 					<tr>
-						<td width="22%"><input required="required" id="item" type="text" name="item[]" class="form-control"></td>
-						<td width="22%"><input required="required" id="duration" type="number" value="1" name="qty[]" class="itemQty form-control"></td>
-						<td width="22%"><input required="required" id="rate" type="number" value="1" name="rate[]" class="itemRate form-control"></td>
-						<td width="22%"><input  type="text" id="total" name="subtotal[]" class="itemSubTotal form-control"></td>
+						<td width="22%"><input required="required"  type="text" name="item[]" class="form-control"></td>
+						<td width="22%"><input required="required" type="number" value="1" name="qty[]" class="itemQty form-control"></td>
+						<td width="22%"><input required="required" type="number" value="1" name="rate[]" class="itemRate form-control"></td>
+						<td width="22%"><input  type="text" name="subtotal[]" class="itemSubTotal form-control"></td>
 						<td width="12%"><span class="btn btn-primary addMoreItems"><i class="fa fa-plus 2x" aria-hidden="true"></i></span></td>
 					</tr>
 				</tbody>
@@ -73,9 +73,7 @@ $this->load->helper('form');
 		</div>
 
 		<div class="form-group">
-			Enter 1 into Input Box
-			<input required="required" type="text" name="captcha" id="captcha" placeholder="Enter 1 to Continue">
-			<input type="hidden" name="advertisement_id" id="advertisement_id">
+			<input required="required" type="text" name="captcha" id="captcha">
 			<input type="submit" name="save" class="btn btn-success" value="Save">
 		</div>
 	</div><!-- /.box-body -->
@@ -208,39 +206,4 @@ function checkValidation()
 		return true;
 	}, 10);
 }	
-
-function loadInvoice()
-{
-	var member_id = jQuery("#member_id").val();
-
-	if(member_id == 0)
-	{
-		alert("Please Select Member to Generate Invoice !");
-		return;
-	}
-
-	jQuery.ajax({
-		url: 		"<?php echo site_url();?>/ajax/getLastAdvertisementDetails",
-		dataType: 	'JSON',
-		type: 'POST',
-		data: {
-			'member_id': member_id
-		},
-		success: function(data)
-		{
-			if(data.status == true)
-			{
-				jQuery("#duration").val(data.duration);
-				jQuery("#item").val(data.item);
-				jQuery("#rate").val(data.rate);
-				jQuery("#total").val(data.total);
-				jQuery("#advertisement_id").val(data.advertisement_id);
-			}
-			else
-			{
-				console.log("NO Invoice Found");
-			}
-		}
-	});
-}
 </script>
