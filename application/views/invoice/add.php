@@ -241,6 +241,11 @@ function loadInvoice()
 			}
 			else
 			{
+				jQuery("#duration").val('');
+				jQuery("#item").val('');
+				jQuery("#rate").val('');
+				jQuery("#total").val('');
+				jQuery("#advertisement_id").val('');
 				jQuery("#error_message").css("display", 'block');
 				jQuery("#error_message").html("No Advertisment found for "+ jQuery("#member_id option:selected" ).text());
 			}

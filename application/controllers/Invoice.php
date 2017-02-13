@@ -45,8 +45,10 @@ class Invoice extends CI_Controller {
 
 			$this->load->model('advertisement_model');
 
-			$this->advertisement_model->setInvoicedAdvertisementById($this->input->post('advertisement_id'));
-			
+			if(strlen($this->input->post('advertisement_id') > 0) && $this->input->post('advertisement_id') != '')
+			{
+				$status = $this->advertisement_model->setInvoicedAdvertisementById($this->input->post('advertisement_id'));	
+			}
 			
 			redirect("invoice", "refresh");
 		}
