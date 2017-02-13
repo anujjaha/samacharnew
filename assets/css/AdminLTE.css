@@ -3550,3 +3550,7 @@ fieldset[disabled] .btn-vk.active {
 input:focus {
     background-color: yellow;
 }
+
+.no-print {
+    display: none;
+}

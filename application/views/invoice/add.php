@@ -13,6 +13,8 @@ $this->load->helper('form');
 			<?php echo get_members_dropdown_invoice();?>
 		</div>
 		
+		<div class="alert alert-danger" role="alert" id="error_message" style="display: none;"></div>
+		
 		<div class="form-group">
 			<label>Invoice Identification :</label>
 			<input type="text" name="invoice_name" class="form-control" value="<?php echo date('d - M');?> - Invoice">
@@ -235,10 +237,12 @@ function loadInvoice()
 				jQuery("#rate").val(data.rate);
 				jQuery("#total").val(data.total);
 				jQuery("#advertisement_id").val(data.advertisement_id);
+				jQuery("#error_message").css("display", 'none');
 			}
 			else
 			{
-				console.log("NO Invoice Found");
+				jQuery("#error_message").css("display", 'block');
+				jQuery("#error_message").html("No Advertisment found for "+ jQuery("#member_id option:selected" ).text());
 			}
 		}
 	});
